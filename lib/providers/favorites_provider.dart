@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../pages/lieux_database.dart';
-import '../pages/Lieu.dart';
+import '../db/lieux_database.dart';
+import '../models/Lieu.dart';
 
 class FavoritesProvider with ChangeNotifier {
   List<Lieu> favorites = [];

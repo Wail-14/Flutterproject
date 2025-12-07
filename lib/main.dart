@@ -5,8 +5,23 @@ import 'pages/home_page.dart';
 import '/providers/weather_provider.dart';
 import 'package:provider/provider.dart';
 
+import 'package:flutter/foundation.dart'; // pour kIsWeb
+import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  if (kIsWeb) {
+    // Web → IndexedDB
+    databaseFactory = databaseFactoryFfiWeb;
+  } else {
+    // Android/iOS/Linux/Mac/Windows
+    sqfliteFfiInit();
+    databaseFactory = databaseFactoryFfi;
+  }
+
   runApp(
     MultiProvider(
       providers: [
@@ -18,27 +33,16 @@ void main() {
   );
 }
 
-
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      
       title: 'Explorez Votre Ville',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-
-      // Page de lancement
+      theme: ThemeData(primarySwatch: Colors.blue),
       home: const AccueilPage(),
-
-      // Navigation simple
-      routes: {
-        '/home': (context) => const HomePage(),
-      },
+      routes: {'/home': (context) => const HomePage()},
     );
   }
 }

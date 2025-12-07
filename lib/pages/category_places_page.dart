@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import '../providers/favorites_provider.dart';
-import 'Lieu.dart';
+import '../models/Lieu.dart';
 
 class CategoryPlacesPage extends StatefulWidget {
   final String category;
