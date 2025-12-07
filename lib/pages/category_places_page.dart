@@ -158,30 +158,14 @@ class _CategoryPlacesPageState extends State<CategoryPlacesPage> {
                           city: widget.city,
                         );
 
-                        final isFav = favs.isFavorite(lieu.id!);
-
-                        print(
-                          "🔍 [DEBUG] Lieu affiché : id=${lieu.id}, fav=$isFav",
-                        );
-
+                        final isFav = favs.isFavorite(lieu.id);
                         return IconButton(
                           icon: Icon(
                             isFav ? Icons.favorite : Icons.favorite_border,
                             color: isFav ? Colors.red : Colors.grey,
                           ),
                           onPressed: () async {
-                            print("❤️ [DEBUG] CLIC FAVORI sur ID ${lieu.id}");
-
                             await favs.toggleFavorite(lieu);
-
-                            print(
-                              "🔥 [DEBUG] Après toggle → isFavorite = ${favs.isFavorite(lieu.id!)}",
-                            );
-                            print(
-                              "📦 [DEBUG] Contenu actuel favoris = ${favs.favorites.map((e) => e.id).toList()}",
-                            );
-
-                            setState(() {});
                           },
                         );
                       },
