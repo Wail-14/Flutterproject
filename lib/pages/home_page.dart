@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/weather_provider.dart';
+import '../providers/favorites_provider.dart';
+
 import 'weather_card.dart';
 import 'category_chip.dart';
 import 'add_place_page.dart';
 
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-
-import '../providers/favorites_provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -114,7 +114,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  // ---------------- STYLES DES CARDS FAVORIS ----------------
+  // ---------------- FAVORITES CARD STYLE ----------------
 
   Map<String, Map<String, dynamic>> cardStyles = {
     "Musée": {
@@ -137,39 +137,26 @@ class _HomePageState extends State<HomePage> {
       "colors": [Color(0xFFC0392B), Color(0xFFE74C3C)],
       "icon": Icons.sports_soccer,
     },
-
-    // fallback
     "default": {
       "colors": [Colors.grey, Colors.black38],
       "icon": Icons.location_on,
     },
   };
 
-  // ---------------- MAP UPDATE ----------------
-
-  void updateMapIfNeeded(BuildContext context) {
-    final weather = Provider.of<WeatherProvider>(context, listen: false);
-    if (weather.hasData) {
-      _mapController.move(LatLng(weather.selectedLat, weather.selectedLon), 13);
-    }
-  }
-
-  // ---------------- BUILD ----------------
+  // -------------------------------------------------------
+  //  NO MORE updateMapIfNeeded() → Removed (bug source)
+  // -------------------------------------------------------
 
   @override
   Widget build(BuildContext context) {
     final weather = Provider.of<WeatherProvider>(context);
     final favorites = Provider.of<FavoritesProvider>(context);
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      updateMapIfNeeded(context);
-    });
-
     final currentCity = weather.cityName;
 
-    favorites.loadFavorites(currentCity);
-    final filteredFavorites = favorites.favorites;
-
+    if (weather.hasData) {
+      favorites.loadFavorites(currentCity);
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -229,31 +216,34 @@ class _HomePageState extends State<HomePage> {
 
                 // ---------------- CITY RESULTS ----------------
                 if (weather.showCityList)
-                  SizedBox(
-                    height: 200,
-                    child: ListView.builder(
-                      itemCount: weather.cityResults.length,
-                      itemBuilder: (context, index) {
-                        final city = weather.cityResults[index];
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: weather.cityResults.length,
+                    itemBuilder: (context, index) {
+                      final city = weather.cityResults[index];
 
-                        return Card(
-                          child: ListTile(
-                            leading: const Icon(Icons.location_city),
-                            title: Text("${city['name']} (${city['country']})"),
-                            subtitle: Text(
-                              "lat: ${city['lat']} — lon: ${city['lon']}",
-                            ),
-                            onTap: () async {
-                              await weather.chooseCity(city);
-                              await Future.delayed(
-                                const Duration(milliseconds: 120),
-                              );
-                              setState(() {});
-                            },
+                      return Card(
+                        child: ListTile(
+                          leading: const Icon(Icons.location_city),
+                          title: Text("${city['name']} (${city['country']})"),
+                          subtitle: Text(
+                            "lat: ${city['lat']} — lon: ${city['lon']}",
                           ),
-                        );
-                      },
-                    ),
+                          onTap: () async {
+                            await weather.chooseCity(city);
+
+                            // 🔥 FIX : recentrer uniquement ici
+                            _mapController.move(
+                              LatLng(city["lat"], city["lon"]),
+                              13,
+                            );
+
+                            setState(() {});
+                          },
+                        ),
+                      );
+                    },
                   ),
 
                 // ---------------- WEATHER CARD ----------------
@@ -317,7 +307,7 @@ class _HomePageState extends State<HomePage> {
 
                 const SizedBox(height: 10),
 
-                // ---------------- MAP ----------------
+                // ---------------- MAP (Fully Interactive) ----------------
                 if (weather.hasData)
                   SizedBox(
                     height: 300,
@@ -329,6 +319,9 @@ class _HomePageState extends State<HomePage> {
                           weather.selectedLon,
                         ),
                         initialZoom: 13,
+                        interactionOptions: const InteractionOptions(
+                          flags: InteractiveFlag.all,
+                        ),
                       ),
                       children: [
                         TileLayer(
@@ -343,7 +336,6 @@ class _HomePageState extends State<HomePage> {
                               height: 40,
                               point: LatLng(place.lat, place.lon),
                               child: getPremiumMarker(place.category),
-
                             );
                           }).toList(),
                         ),
@@ -352,7 +344,7 @@ class _HomePageState extends State<HomePage> {
                   ),
 
                 // ---------------- FAVORITES ----------------
-                if (filteredFavorites.isNotEmpty) ...[
+                if (favorites.favorites.isNotEmpty) ...[
                   const SizedBox(height: 20),
                   const Text(
                     "Vos lieux favoris dans cette ville",
@@ -364,11 +356,11 @@ class _HomePageState extends State<HomePage> {
                     height: 180,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: filteredFavorites.length,
+                      itemCount: favorites.favorites.length,
                       itemBuilder: (context, index) {
-                        final fav = filteredFavorites[index];
-
-                        final style = cardStyles[fav.category] ?? cardStyles["default"];
+                        final fav = favorites.favorites[index];
+                        final style =
+                            cardStyles[fav.category] ?? cardStyles["default"];
 
                         return GestureDetector(
                           onTap: () {
