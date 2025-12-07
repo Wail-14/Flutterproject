@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["sqflite_common_ffi|lib/src/windows/setup.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

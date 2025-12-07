@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["analyzer|lib/dart/ast/syntactic_entity.dart","analyzer|lib/dart/element/element.dart","analyzer|lib/error/listener.dart","analyzer|lib/src/dart/error/hint_codes.dart","analyzer|lib/src/error/element_usage_detector.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

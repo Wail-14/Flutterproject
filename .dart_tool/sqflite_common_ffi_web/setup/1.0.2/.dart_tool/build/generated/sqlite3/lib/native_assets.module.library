@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["sqlite3|lib/src/sqlite3_native_library.dart","meta|lib/meta.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["ffi"],"hasMain":false}

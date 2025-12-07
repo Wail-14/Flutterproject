@@ -1,0 +1,17 @@
+/home/wail/Documents/m1/explorezvotrevilleV1/explorezvotreville/build/linux/x64/debug/bundle/explorezvotreville
+/home/wail/Documents/m1/explorezvotrevilleV1/explorezvotreville/build/linux/x64/debug/bundle/data/icudtl.dat
+/home/wail/Documents/m1/explorezvotrevilleV1/explorezvotreville/build/linux/x64/debug/bundle/lib/libflutter_linux_gtk.so
+/home/wail/Documents/m1/explorezvotrevilleV1/explorezvotreville/build/linux/x64/debug/bundle/data/flutter_assets/shaders/ink_sparkle.frag
+/home/wail/Documents/m1/explorezvotrevilleV1/explorezvotreville/build/linux/x64/debug/bundle/data/flutter_assets/version.json
+/home/wail/Documents/m1/explorezvotrevilleV1/explorezvotreville/build/linux/x64/debug/bundle/data/flutter_assets/NOTICES
+/home/wail/Documents/m1/explorezvotrevilleV1/explorezvotreville/build/linux/x64/debug/bundle/data/flutter_assets/AssetManifest.json
+/home/wail/Documents/m1/explorezvotrevilleV1/explorezvotreville/build/linux/x64/debug/bundle/data/flutter_assets/AssetManifest.bin.json
+/home/wail/Documents/m1/explorezvotrevilleV1/explorezvotreville/build/linux/x64/debug/bundle/data/flutter_assets/kernel_blob.bin
+/home/wail/Documents/m1/explorezvotrevilleV1/explorezvotreville/build/linux/x64/debug/bundle/data/flutter_assets/assets/lottie/Traveler.json
+/home/wail/Documents/m1/explorezvotrevilleV1/explorezvotreville/build/linux/x64/debug/bundle/data/flutter_assets/NativeAssetsManifest.json
+/home/wail/Documents/m1/explorezvotrevilleV1/explorezvotreville/build/linux/x64/debug/bundle/data/flutter_assets/AssetManifest.bin
+/home/wail/Documents/m1/explorezvotrevilleV1/explorezvotreville/build/linux/x64/debug/bundle/data/flutter_assets/fonts/MaterialIcons-Regular.otf
+/home/wail/Documents/m1/explorezvotrevilleV1/explorezvotreville/build/linux/x64/debug/bundle/data/flutter_assets/NOTICES.Z
+/home/wail/Documents/m1/explorezvotrevilleV1/explorezvotreville/build/linux/x64/debug/bundle/data/flutter_assets/FontManifest.json
+/home/wail/Documents/m1/explorezvotrevilleV1/explorezvotreville/build/linux/x64/debug/bundle/data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf
+/home/wail/Documents/m1/explorezvotrevilleV1/explorezvotreville/build/linux/x64/debug/bundle/data/flutter_assets/packages/flutter_map/lib/assets/flutter_map_logo.png

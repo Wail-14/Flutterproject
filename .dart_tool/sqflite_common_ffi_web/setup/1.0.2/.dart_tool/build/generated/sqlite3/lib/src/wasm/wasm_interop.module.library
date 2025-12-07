@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["sqlite3|lib/wasm.dart","sqlite3|lib/src/implementation/bindings.dart","sqlite3|lib/src/wasm/bindings.dart","sqlite3|lib/src/wasm/js_interop.dart","web|lib/web.dart","sqlite3|lib/src/wasm/sqlite3_wasm.g.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["async","convert","js_interop","typed_data"],"hasMain":false}
