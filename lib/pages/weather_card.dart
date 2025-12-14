@@ -28,72 +28,64 @@ class WeatherCard extends StatelessWidget {
       elevation: 8,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(14), // 🔥 réduit pour compacter
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Nom de la ville
             Text(
               cityName,
-              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ), // 🔥 un peu plus petit
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
 
+            // 🔥 Icône + Température + Min/Max sur UNE seule ligne
             Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Icône météo avec fond visible
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(18),
-                  ),
-                  padding: const EdgeInsets.all(8),
-                  child: Image.network(
-                    "https://openweathermap.org/img/wn/$icon@4x.png",
-                    width: 80,
-                    height: 80,
-                  ),
+                Image.network(
+                  "https://openweathermap.org/img/wn/$icon@2x.png",
+                  width: 55, // 🔥 bcp + compact
+                  height: 55,
                 ),
 
-                const SizedBox(width: 16),
+                const SizedBox(width: 12),
 
+                // Température
                 Text(
                   "${temperature.toInt()}°",
                   style: const TextStyle(
-                    fontSize: 50,
+                    fontSize: 40, // 🔥 réduit
                     fontWeight: FontWeight.bold,
                   ),
+                ),
+
+                const Spacer(),
+
+                // Min / Max
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    const Text("Min / Max"),
+                    Text("${minTemp.toInt()}° / ${maxTemp.toInt()}°"),
+                  ],
                 ),
               ],
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: 8),
 
+            // 🔥 Description - Humidité - Vent sur UNE ligne
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text("Description"),
-                    Text(description),
-                    const SizedBox(height: 12),
-                    const Text("Humidité"),
-                    Text("$humidity%"),
-                  ],
-                ),
-
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text("Min / Max"),
-                    Text("${minTemp.toInt()}° / ${maxTemp.toInt()}°"),
-                    const SizedBox(height: 12),
-                    const Text("Vent"),
-                    Text("$wind km/h"),
-                  ],
-                ),
+                Text("🌤 $description"),
+                Text("💧 $humidity%"),
+                Text("💨 $wind km/h"),
               ],
             ),
           ],
