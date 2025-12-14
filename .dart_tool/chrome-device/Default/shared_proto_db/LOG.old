@@ -1,7 +1,10 @@
-2025/12/14-05:30:45.505 834a Reusing MANIFEST /tmp/flutter_tools.JYFWTD/flutter_tools_chrome_device.FHAFLX/Default/shared_proto_db/MANIFEST-000001
-2025/12/14-05:30:45.505 834a Recovering log #13
-2025/12/14-05:30:45.506 834a Reusing old log /tmp/flutter_tools.JYFWTD/flutter_tools_chrome_device.FHAFLX/Default/shared_proto_db/000013.log 
-2025/12/14-05:30:45.506 834a Delete type=0 #4
-2025/12/14-05:30:45.506 834a Delete type=0 #3
-2025/12/14-05:30:45.506 834a Delete type=0 #7
-2025/12/14-05:30:45.506 834a Delete type=0 #10
+2025/12/14-23:38:03.816 ea20 Reusing MANIFEST /tmp/flutter_tools.SRIGFI/flutter_tools_chrome_device.KMWZUB/Default/shared_proto_db/MANIFEST-000001
+2025/12/14-23:38:03.816 ea20 Recovering log #13
+2025/12/14-23:38:03.817 ea20 Reusing old log /tmp/flutter_tools.SRIGFI/flutter_tools_chrome_device.KMWZUB/Default/shared_proto_db/000013.log 
+2025/12/14-23:38:03.817 ea20 Delete type=0 #4
+2025/12/14-23:38:03.817 ea20 Delete type=0 #3
+2025/12/14-23:38:03.817 ea20 Delete type=0 #7
+2025/12/14-23:38:03.817 ea20 Delete type=0 #10
+2025/12/14-23:38:03.843 ea20 Level-0 table #17: started
+2025/12/14-23:38:03.848 ea20 Level-0 table #17: 118991 bytes OK
+2025/12/14-23:38:03.852 ea20 Delete type=0 #13

@@ -29,6 +29,7 @@
     final TextEditingController _cityController = TextEditingController();
     final MapController _mapController = MapController();
     double favoritesOpacity = 0.0; // Pour animation des favoris
+    double fabScale = 1.0;
 
     @override
     void dispose() {
@@ -501,7 +502,15 @@
                                 cardStyles[fav.category] ?? cardStyles["default"];
 
                             return GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => LieuDetailPage(lieu: fav),
+                                ),
+                              );
+                              },
+
                               child: Container(
                                 width: 150,
                                 margin: const EdgeInsets.only(right: 16),
@@ -550,45 +559,61 @@
           ),
         ),
 
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                title: const Text("Ajouter un lieu"),
-                content: AddPlaceForm(
-                  onSubmit: (placeName) async {
-                    final weatherProv = Provider.of<WeatherProvider>(
-                      context,
-                      listen: false,
-                    );
+        floatingActionButton: AnimatedScale(
+          scale: fabScale,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOutBack,
+          child: FloatingActionButton(
+            onPressed: () {
+              // 🔥 animation au clic
+              setState(() {
+                fabScale = 1.25; // grossit
+              });
 
-                    final newLieu = Lieu(
-                      id: DateTime.now().millisecondsSinceEpoch,
-                      name: placeName,
-                      category: "Personnalisé",
-                      lat: weatherProv.selectedLat,
-                      lon: weatherProv.selectedLon,
-                      city: weatherProv.cityName,
-                    );
+              Future.delayed(const Duration(milliseconds: 200), () {
+                setState(() {
+                  fabScale = 1.0; // revient à normal
+                });
+              });
 
-                    await LieuxDatabase.insertLieu(newLieu);
+              // 🔥 ton code d’ajout de lieu
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text("Ajouter un lieu"),
+                  content: AddPlaceForm(
+                    onSubmit: (placeName) async {
+                      final weatherProv = Provider.of<WeatherProvider>(
+                        context,
+                        listen: false,
+                      );
 
-                    Provider.of<FavoritesProvider>(
-                      context,
-                      listen: false,
-                    ).loadFavorites(weatherProv.cityName);
+                      final newLieu = Lieu(
+                        id: DateTime.now().millisecondsSinceEpoch,
+                        name: placeName,
+                        category: "Personnalisé",
+                        lat: weatherProv.selectedLat,
+                        lon: weatherProv.selectedLon,
+                        city: weatherProv.cityName,
+                      );
 
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Lieu ajouté !")),
-                    );
-                  },
+                      await LieuxDatabase.insertLieu(newLieu);
 
+                      Provider.of<FavoritesProvider>(
+                        context,
+                        listen: false,
+                      ).loadFavorites(weatherProv.cityName);
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("Lieu ajouté !")),
+                      );
+                    },
+                  ),
                 ),
-              ),
-            );
-          },
-          child: const Icon(Icons.add),
+              );
+            },
+            child: const Icon(Icons.add),
+          ),
         ),
       );
     }
