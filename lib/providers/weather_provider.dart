@@ -14,9 +14,10 @@ class WeatherProvider with ChangeNotifier {
   String description = "";
   String icon = "";
 
-  static const defaultCity = "Orléans";
-  static const defaultLat = 47.902964;
-  static const defaultLon = 1.909251;
+  // ======= Ville par défaut =======
+  static const String defaultCity = "Orléans";
+  static const double defaultLat = 47.902964;
+  static const double defaultLon = 1.909251;
 
   double selectedLat = 0;
   double selectedLon = 0;
@@ -29,24 +30,30 @@ class WeatherProvider with ChangeNotifier {
 
   static const String apiKey = "f2abd7617c5007ee9ee812cfdc04970a";
 
+  // 🔥 Flag pour éviter la sauvegarde au démarrage
+  bool _isInit = true;
+
   // =======================================================
-  //                CONSTRUCTEUR : initState()
+  //                CONSTRUCTEUR
   // =======================================================
   WeatherProvider() {
-    _loadStoredCity();
-    _loadSearchHistory();
+    _loadStoredCity(); // ⚠️ force Orléans
+    _loadSearchHistory(); // charge l’historique
   }
 
   // =======================================================
-  //           SharedPreferences : Charger ville
+  //        CHARGEMENT INITIAL : ORLÉANS UNIQUEMENT
   // =======================================================
   Future<void> _loadStoredCity() async {
     final prefs = await SharedPreferences.getInstance();
 
-    final savedCity = prefs.getString("lastCity") ?? defaultCity;
+    // 🔥 INITIALISATION UNE SEULE FOIS
+    if (!prefs.containsKey("lastCity")) {
+      await prefs.setString("lastCity", defaultCity);
+    }
 
-    // Récupérer coordonnées via l’API
-    final cities = await fetchCities(savedCity);
+    // 🔥 DÉMARRAGE TOUJOURS SUR ORLÉANS
+    final cities = await fetchCities(defaultCity);
 
     if (cities.isNotEmpty) {
       final data = await fetchWeatherByCoord(
@@ -57,8 +64,9 @@ class WeatherProvider with ChangeNotifier {
     }
   }
 
+
   // =======================================================
-  //           SharedPreferences : Sauver ville
+  //       SharedPreferences : Sauver ville (hors boot)
   // =======================================================
   Future<void> _saveCurrentCity(String city) async {
     final prefs = await SharedPreferences.getInstance();
@@ -75,30 +83,23 @@ class WeatherProvider with ChangeNotifier {
   }
 
   // =======================================================
-  //       SharedPreferences : Sauver nouvelle recherche
+  //       SharedPreferences : Sauver recherche
   // =======================================================
- Future<void> _saveSearch(Map<String, dynamic> city) async {
+  Future<void> _saveSearch(Map<String, dynamic> city) async {
     final prefs = await SharedPreferences.getInstance();
 
-    // On convertit la ville en JSON
     final jsonCity = jsonEncode(city);
 
-    // On évite les doublons exacts
     searchHistory.remove(jsonCity);
-
-    // On ajoute en début de liste
     searchHistory.insert(0, jsonCity);
 
-    // On limite à 5 villes
     if (searchHistory.length > 5) {
       searchHistory = searchHistory.sublist(0, 5);
     }
 
-    // Sauvegarde
     await prefs.setStringList("history", searchHistory);
     notifyListeners();
   }
-
 
   // =======================================================
   //     API : Fetch villes
@@ -132,7 +133,8 @@ class WeatherProvider with ChangeNotifier {
     double lon,
   ) async {
     final url =
-        "https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&units=metric&lang=fr&appid=$apiKey";
+        "https://api.openweathermap.org/data/2.5/weather"
+        "?lat=$lat&lon=$lon&units=metric&lang=fr&appid=$apiKey";
 
     final response = await http.get(Uri.parse(url));
     if (response.statusCode != 200) {
@@ -142,7 +144,7 @@ class WeatherProvider with ChangeNotifier {
   }
 
   // =======================================================
-  //     Update interface
+  //     Mise à jour UI
   // =======================================================
   void updateInterface(Map<String, dynamic> data) {
     cityName = data["name"];
@@ -160,13 +162,17 @@ class WeatherProvider with ChangeNotifier {
     hasData = true;
     showCityList = false;
 
-    _saveCurrentCity(cityName); // 🔥 Sauvegarde automatique
+    // 🔥 On ne sauvegarde PAS la ville au démarrage
+    if (!_isInit) {
+      _saveCurrentCity(cityName);
+    }
 
+    _isInit = false;
     notifyListeners();
   }
 
   // =======================================================
-  //     Méthode pour rechercher une ville
+  //     Recherche de ville
   // =======================================================
   Future<void> searchCity(String inputCity) async {
     if (inputCity.trim().isEmpty) return;
@@ -180,27 +186,21 @@ class WeatherProvider with ChangeNotifier {
       return;
     }
 
-    // Si une seule ville → on charge, mais on NE sauvegarde pas encore l'historique ici
     if (cityResults.length == 1) {
       final city = cityResults[0];
       final weatherData = await fetchWeatherByCoord(city["lat"], city["lon"]);
       updateInterface(weatherData);
-
-      // 🔥 SAUVEGARDE ICI car on a une vraie ville (et non juste du texte)
       await _saveSearch(city);
-
       return;
     }
 
-    // Sinon → choix multiple
     showCityList = true;
     hasData = false;
     notifyListeners();
   }
 
-
   // =======================================================
-  //     Choisir une ville dans la liste
+  //     Choix d’une ville
   // =======================================================
   Future<void> chooseCity(Map<String, dynamic> city) async {
     await _saveSearch(city);

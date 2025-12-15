@@ -49,6 +49,88 @@ class _LieuDetailPageState extends State<LieuDetailPage> {
 
     await _loadData(); // 🔥 Recharge commentaires + moyenne
   }
+  // ----------------------------------------------------------
+  //  Icônes premium (même design que dans HomePage)
+  // ----------------------------------------------------------
+  Widget premiumPin({
+    required Color color,
+    required IconData icon,
+    double size = 44,
+  }) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Positioned(
+          bottom: 2,
+          child: Container(
+            width: size * 0.45,
+            height: size * 0.18,
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(0.25),
+              borderRadius: BorderRadius.circular(50),
+            ),
+          ),
+        ),
+        Container(
+          width: size,
+          height: size,
+          decoration: const BoxDecoration(shape: BoxShape.circle),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: RadialGradient(
+                    colors: [color.withOpacity(0.95), color.withOpacity(0.7)],
+                  ),
+                  border: Border.all(color: Colors.white, width: 3),
+                ),
+              ),
+              Icon(icon, color: Colors.white, size: size * 0.42),
+            ],
+          ),
+        ),
+        Positioned(
+          bottom: -size * 0.12,
+          child: Transform.rotate(
+            angle: 3.14 / 4,
+            child: Container(
+              width: size * 0.28,
+              height: size * 0.28,
+              decoration: BoxDecoration(
+                color: color,
+                border: Border.all(color: Colors.white, width: 2),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget getPremiumMarker(String category) {
+    switch (category) {
+      case "Musée":
+        return premiumPin(color: const Color(0xFF8E44AD), icon: Icons.museum);
+      case "Cinéma":
+        return premiumPin(color: const Color(0xFF2980B9), icon: Icons.movie);
+      case "Parc":
+        return premiumPin(color: const Color(0xFF27AE60), icon: Icons.park);
+      case "Théâtre":
+        return premiumPin(
+          color: const Color(0xFFE67E22),
+          icon: Icons.theater_comedy,
+        );
+      case "Stade":
+        return premiumPin(
+          color: const Color(0xFFC0392B),
+          icon: Icons.sports_soccer,
+        );
+      default:
+        return premiumPin(color: Colors.black87, icon: Icons.location_on);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,9 +147,14 @@ class _LieuDetailPageState extends State<LieuDetailPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // IMAGE / ICONE SIMPLIFIÉE
-            Center(
-              child: Icon(Icons.place, size: 80, color: Colors.blueAccent),
+            Hero(
+              tag: "lieu-${widget.lieu.id}",
+              child: getPremiumMarker(
+                widget.lieu.category,
+              ), // 🔥 Même icône que la map / favoris
             ),
+
+
             const SizedBox(height: 20),
 
             // TITRE
