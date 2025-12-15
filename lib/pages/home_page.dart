@@ -478,16 +478,35 @@ class _HomePageState extends State<HomePage> {
                                 onTap: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(
-                                      builder: (_) =>
-                                          LieuDetailPage(lieu: place),
+                                    PageRouteBuilder(
+                                      pageBuilder:
+                                          (
+                                            context,
+                                            animation,
+                                            secondaryAnimation,
+                                          ) {
+                                            return LieuDetailPage(lieu: place);
+                                          },
+                                      transitionsBuilder:
+                                          (
+                                            context,
+                                            animation,
+                                            secondaryAnimation,
+                                            child,
+                                          ) {
+                                            return FadeTransition(
+                                              opacity: animation,
+                                              child: child,
+                                            );
+                                          },
                                     ),
                                   );
+
                                 },
-                                child: Hero(
-                                  tag: "lieu-${place.id}",
-                                  child: getPremiumMarker(place.category),
-                                ),
+                                
+                                
+                                child: getPremiumMarker(place.category),
+                                
 
                               ),
                             );
@@ -550,11 +569,15 @@ class _HomePageState extends State<HomePage> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Icon(
-                                        style["icon"],
-                                        color: Colors.white,
-                                        size: 50,
+                                      Hero(
+                                        tag: "lieu-${fav.id}",
+                                        child: Icon(
+                                          style["icon"],
+                                          color: Colors.white,
+                                          size: 50,
+                                        ),
                                       ),
+
                                       const SizedBox(height: 12),
                                       Text(
                                         fav.name,
