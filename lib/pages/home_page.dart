@@ -4,9 +4,9 @@ import 'package:provider/provider.dart';
 import '../providers/weather_provider.dart';
 import '../providers/favorites_provider.dart';
 
-import 'weather_card.dart';
-import 'category_chip.dart';
-import 'add_place_page.dart';
+import '../Widgets/weather_card.dart';
+import '../Widgets/category_chip.dart';
+import '../Widgets/add_place.dart';
 import 'place_detail_page.dart';
 
 import 'package:flutter_map/flutter_map.dart';
