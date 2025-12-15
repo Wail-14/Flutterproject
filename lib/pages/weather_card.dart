@@ -28,7 +28,7 @@ class WeatherCard extends StatelessWidget {
       elevation: 8,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Padding(
-        padding: const EdgeInsets.all(14), // 🔥 réduit pour compacter
+        padding: const EdgeInsets.all(14), //  réduit pour compacter
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -38,18 +38,18 @@ class WeatherCard extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
-              ), // 🔥 un peu plus petit
+              ), //  un peu plus petit
             ),
 
             const SizedBox(height: 8),
 
-            // 🔥 Icône + Température + Min/Max sur UNE seule ligne
+            //  Icône + Température + Min/Max sur UNE seule ligne
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Image.network(
                   "https://openweathermap.org/img/wn/$icon@2x.png",
-                  width: 55, // 🔥 bcp + compact
+                  width: 55, //  bcp + compact
                   height: 55,
                 ),
 
@@ -59,7 +59,7 @@ class WeatherCard extends StatelessWidget {
                 Text(
                   "${temperature.toInt()}°",
                   style: const TextStyle(
-                    fontSize: 40, // 🔥 réduit
+                    fontSize: 40, //  réduit
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -79,7 +79,7 @@ class WeatherCard extends StatelessWidget {
 
             const SizedBox(height: 8),
 
-            // 🔥 Description - Humidité - Vent sur UNE ligne
+            //  Description - Humidité - Vent sur UNE ligne
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

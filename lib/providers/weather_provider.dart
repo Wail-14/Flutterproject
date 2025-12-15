@@ -30,7 +30,7 @@ class WeatherProvider with ChangeNotifier {
 
   static const String apiKey = "f2abd7617c5007ee9ee812cfdc04970a";
 
-  // 🔥 Flag pour éviter la sauvegarde au démarrage
+  //  Flag pour éviter la sauvegarde au démarrage
   bool _isInit = true;
 
   // =======================================================
@@ -47,12 +47,12 @@ class WeatherProvider with ChangeNotifier {
   Future<void> _loadStoredCity() async {
     final prefs = await SharedPreferences.getInstance();
 
-    // 🔥 INITIALISATION UNE SEULE FOIS
+    //  INITIALISATION UNE SEULE FOIS
     if (!prefs.containsKey("lastCity")) {
       await prefs.setString("lastCity", defaultCity);
     }
 
-    // 🔥 DÉMARRAGE TOUJOURS SUR ORLÉANS
+    //  DÉMARRAGE TOUJOURS SUR ORLÉANS
     final cities = await fetchCities(defaultCity);
 
     if (cities.isNotEmpty) {
@@ -162,7 +162,7 @@ class WeatherProvider with ChangeNotifier {
     hasData = true;
     showCityList = false;
 
-    // 🔥 On ne sauvegarde PAS la ville au démarrage
+    //  On ne sauvegarde PAS la ville au démarrage
     if (!_isInit) {
       _saveCurrentCity(cityName);
     }

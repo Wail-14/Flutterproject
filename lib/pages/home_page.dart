@@ -299,13 +299,13 @@ class _HomePageState extends State<HomePage> {
                     children: weather.searchHistory.map((item) {
                       final city = jsonDecode(
                         item,
-                      ); // 🔥 Convertit le JSON en Map
+                      ); //  Convertit le JSON en Map
 
                       return GestureDetector(
                         onTap: () async {
                           await weather.chooseCity(city);
 
-                          // 🔥 Recentre la carte avec les coordonnées de la ville historique
+                          //  Recentre la carte avec les coordonnées de la ville historique
                           _mapController.move(
                             LatLng(city["lat"], city["lon"]),
                             13,
@@ -315,7 +315,7 @@ class _HomePageState extends State<HomePage> {
                             favoritesOpacity = 0.0;
                           });
 
-                          Future.delayed(const Duration(seconds: 3), () {
+                          Future.delayed(const Duration(seconds: 1), () {
                             if (mounted) {
                               setState(() {
                                 favoritesOpacity = 1.0;
@@ -334,7 +334,7 @@ class _HomePageState extends State<HomePage> {
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
-                            city["name"], // 🔥 On affiche le NOM, pas le JSON brut
+                            city["name"], //  On affiche le NOM, pas le JSON brut
                             style: const TextStyle(fontSize: 16),
                           ),
                         ),
@@ -369,7 +369,7 @@ class _HomePageState extends State<HomePage> {
                           onTap: () async {
                             await weather.chooseCity(city);
 
-                            // 🔥 FIX : recentrer uniquement ici
+                            //  FIX : recentrer uniquement ici
                             _mapController.move(
                               LatLng(city["lat"], city["lon"]),
                               13,
@@ -638,7 +638,7 @@ class _HomePageState extends State<HomePage> {
         curve: Curves.easeOutBack,
         child: FloatingActionButton(
           onPressed: () {
-            // 🔥 animation au clic
+            //  animation au clic
             setState(() {
               fabScale = 1.25; // grossit
             });
@@ -649,7 +649,7 @@ class _HomePageState extends State<HomePage> {
               });
             });
 
-            // 🔥 ton code d’ajout de lieu
+            //  ton code d’ajout de lieu
             showDialog(
               context: context,
               builder: (context) => AlertDialog(

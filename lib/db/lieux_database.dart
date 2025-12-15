@@ -12,7 +12,7 @@ class LieuxDatabase {
 
     _db = await openDatabase(
       path,
-      version: 2, // 🔥 Version 2 pour créer la nouvelle table
+      version: 2, //  Version 2 pour créer la nouvelle table
       onCreate: (db, version) async {
         // TABLE DES LIEUX
         await db.execute('''
@@ -26,7 +26,7 @@ class LieuxDatabase {
           )
         ''');
 
-        // 🔥 TABLE DES COMMENTAIRES + NOTES
+        //  TABLE DES COMMENTAIRES + NOTES
         await db.execute('''
           CREATE TABLE reviews(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -37,7 +37,7 @@ class LieuxDatabase {
         ''');
       },
 
-      // 🔥 Si la BD existait déjà → créer reviews
+      //  Si la BD existait déjà → créer reviews
       onUpgrade: (db, oldVersion, newVersion) async {
         if (oldVersion < 2) {
           await db.execute('''
@@ -87,7 +87,7 @@ class LieuxDatabase {
   }
 
   // ============================================================
-  // 🔥 🔥 🔥 FONCTIONS POUR COMMENTAIRES ET NOTES
+  //  FONCTIONS POUR COMMENTAIRES ET NOTES
   // ============================================================
 
   // Ajouter un commentaire et une note

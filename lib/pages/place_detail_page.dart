@@ -47,7 +47,7 @@ class _LieuDetailPageState extends State<LieuDetailPage> {
     commentCtrl.clear();
     selectedRating = 3;
 
-    await _loadData(); // 🔥 Recharge commentaires + moyenne
+    await _loadData(); //  Recharge commentaires + moyenne
   }
   // ----------------------------------------------------------
   //  Icônes premium (même design que dans HomePage)
@@ -151,7 +151,7 @@ class _LieuDetailPageState extends State<LieuDetailPage> {
               tag: "lieu-${widget.lieu.id}",
               child: getPremiumMarker(
                 widget.lieu.category,
-              ), // 🔥 Même icône que la map / favoris
+              ), //  Même icône que la map / favoris
             ),
 
 
@@ -287,7 +287,7 @@ class _LieuDetailPageState extends State<LieuDetailPage> {
     );
   }
 
-  // ⭐⭐⭐⭐⭐ widget affichage fixe
+  // widget affichage fixe
   Widget _buildStars(double rating) {
     int full = rating.floor();
     return Row(

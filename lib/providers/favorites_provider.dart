@@ -32,7 +32,7 @@ class FavoritesProvider with ChangeNotifier {
     }
   }
 
-  // 🔥 Méthode supplémentaire indispensable
+  //  Méthode supplémentaire indispensable
   bool isFavorite(int id) {
     return favorites.any((l) => l.id == id);
   }
