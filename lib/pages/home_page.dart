@@ -30,13 +30,30 @@ class _HomePageState extends State<HomePage> {
   double favoritesOpacity = 0.0; // Pour animation des favoris
   double fabScale = 1.0;
 
-  
-
   @override
   void dispose() {
     _cityController.dispose();
     super.dispose();
   }
+  @override
+  void initState() {
+    super.initState();
+    restartFavoritesAnimation();
+  }
+  void restartFavoritesAnimation() {
+      setState(() {
+        favoritesOpacity = 0.0;
+      });
+
+      Future.delayed(const Duration(milliseconds: 500), () {
+        if (mounted) {
+          setState(() {
+            favoritesOpacity = 1.0;
+          });
+        }
+      });
+    }
+
 
   // ---------------- PREMIUM MAP PIN ----------------
 
@@ -218,14 +235,7 @@ class _HomePageState extends State<HomePage> {
     if (weather.hasData) {
       favorites.loadFavorites(currentCity);
     }
-    Future.delayed(Duration(seconds: 3), () {
-      if (mounted) {
-        setState(() {
-          favoritesOpacity = 1.0;
-        });
-      }
-    });
-    // l’animation s’active
+    
 
     return Scaffold(
       appBar: AppBar(
